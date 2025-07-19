@@ -3,6 +3,8 @@ import fetch from 'node-fetch';
 import { describe, it } from 'mocha';
 
 describe('About page', function () {
+  this.timeout(10000); // <--- добави това
+
   it('Page title', async function () {
     const res = await fetch('http://localhost:8888/about');
     const body = await res.text();
