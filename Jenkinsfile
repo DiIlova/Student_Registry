@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs "NodeJS_18"  // увери се, че си конфигурирала NodeJS в Jenkins
+    }
+
     stages {
         stage('Checkout') {
             steps {
@@ -8,29 +12,22 @@ pipeline {
             }
         }
 
-        stage('Setup Node.js') {
-            steps {
-                sh 'curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -'
-                sh 'sudo apt-get install -y nodejs'
-            }
-        }
-
         stage('Install dependencies') {
             steps {
-                sh 'npm install'
+                bat 'npm install'
             }
         }
 
         stage('Start app') {
             steps {
-                sh 'nohup npm start &'
+                bat 'start /B npm start'
                 sleep time: 3, unit: 'SECONDS'
             }
         }
 
         stage('Run tests') {
             steps {
-                sh 'npm test'
+                bat 'npm test'
             }
         }
     }
